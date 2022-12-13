@@ -1,0 +1,25 @@
+<odoo>
+  <data>
+  
+    <record model="ir.ui.view" id="exe_hr_payslip_run_custom_form">
+      <field name="name">hr.payslip.run.form.custom</field>
+      <field name="model">hr.payslip.run</field>
+      <field name="inherit_id" ref="payroll.hr_payslip_run_view_form"/>
+      <field name="arch" type="xml">
+
+        <xpath expr="//separator[1]" position="before">
+              <separator string="Art.12 Ley 17250"/>
+              <group >
+                <!-- label for="despositado_art12" string="Depositado en"/ -->
+                <field name="despositado_art12" style="width:30%"/>
+                <!-- label for="fecha_pago_art12"/ -->
+                <field name="fecha_pago_art12" style="width:30%"/>
+                <!-- label for="periodo_pago_art12"/ -->
+                <field name="periodo_pago_art12" style="width:30%"/>
+              </group>
+        </xpath>
+      </field>
+    </record>
+    
+  </data>
+</odoo>

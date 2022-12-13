@@ -1,0 +1,27 @@
+<odoo>
+  <data>
+    <record id="employee_file_form_inherit"  model="ir.ui.view">
+      <field name="name">employee.file.form.inherit</field>
+      <field name="model">hr.employee</field>
+      <field name="inherit_id" ref="hr.view_employee_form" />
+      <field name="arch" type="xml">
+        <xpath expr="//field[@name='job_title']" position="before">
+        <div class="oe_title">
+          <label for="employee_file" string="Legajo" class="oe_edit_only"/>
+          <h1><field name="employee_file" placeholder="Legajo"/></h1>
+        </div>
+        </xpath> 
+      </field>
+    </record>
+    <record model="ir.ui.view" id="employee_file_search_inherit">
+    <field name="name">exe.employee.file.search.inherit</field>
+    <field name="model">hr.employee</field>
+    <field name="inherit_id" ref="hr.view_employee_filter"/>  <!--hereda de la vista de usuarios padre id externo-->
+    <field name="arch" type="xml">
+        <xpath expr="//field[@name='job_id']" position="after">  <!--Dentro de la etiqueta notebook-->
+                <field name="employee_file" string="Legajo" icon="fa-building" select="multi" enable_counters="1"/>   
+        </xpath>
+    </field>
+    </record>
+  </data>
+</odoo>

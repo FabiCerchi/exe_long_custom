@@ -1,0 +1,202 @@
+<odoo>
+  <data>
+    <template id="exe_libro_sueldos_pdf">
+      <!-- t t-set="o" t-value="o.with_context({'lang':o.partner_id.lang})"/ -->
+      <!-- Multicompany -->
+         <t t-if="not o and doc">
+      <t t-set="o" t-value="doc"/>
+      </t>
+      <t t-if="o and 'company_id' in o">
+        <t t-set="company" t-value="o.company_id"/>
+      </t>
+      <t t-if="not o or not 'company_id' in o">
+        <t t-set="company" t-value="res_company"/>
+      </t> <!-- END MULTICOMPANY -->
+                style{
+                .table-borderless > tbody > tr > td,
+                .table-borderless > tbody > tr > th,
+                .table-borderless > tfoot > tr > td,
+                .table-borderless > tfoot > tr > th,
+                .table-borderless > thead > tr > td,
+                .table-borderless > thead > tr > th {
+                    border: none;
+                  }
+                }
+      <!--ARTICLE -->
+      <div class="article" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id">
+        <div class="header col" style="margin-bottom: 0px !important; height:120px;font-size:11px;"> <!-- HEADER -->
+            <div class="row" >
+              <div class="col-12 m-0 p-0">
+                <p class="m-0 p-0 text-uppercase" style="font-size:12px"><strong t-field="o.company_id.name"/></p>
+                <p class="m-0 p-0" style="font-size:11px">CUIT:<strong class="pl-5" t-field="o.company_id.vat"/></p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-7 m-0 p-0">
+                <p class="m-0 p-0"><span t-field="o.company_id.street"/>
+                <span t-field="o.company_id.city"/>
+                <span t-field="o.company_id.zip"/>
+                <span t-field="o.company_id.state_id"/>
+                </p>
+              </div>
+              <div class="col-5">
+                <p class="m-0 p-0 text-right">PERIODO: <strong class="pl-5" t-field="o.fiscal_period"/></p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-5"></div>
+              <div class="col-7">
+                <p><span>Ley 20.744 Art. 52</span><span style="padding-left:100px">Tomo: <span class="pl-5">XLIX</span></span><span class="pl-5">Folio: <span class="pl-5 page text-right"/></span></p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-5"></div>
+              <div class="col-7">
+                <p><span>Datos de liquidacion.</span><span style="padding-left:100px">Fecha de impresion: <span class="pl-5" t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d')"/></span></p>
+              </div>
+            </div>
+            <div class="row"  style="border-top: 1px dashed black;border-bottom: 1px dashed black;">
+              <div class="col-12">
+                <p class="m-0 p-0"><span style="margin-left:55px">APELLIDO Y NOMBRE</span> <span style="margin-left:75px">DOCUMENTO</span> <span style="margin-left:80px">CUIL</span> <span style="margin-left:180px">CATEGORIA</span></p>
+                <p class="m-0 p-0"><span style="margin-left:25px">LEGAJO</span> <span style="margin-left:265px">INGRESO</span> <span style="margin-left:50px">EGRESO</span> <span style="margin-left:60px">SUELDO</span></p>
+              </div>
+            </div>
+        </div> <!-- END HEADER -->
+        <div class="page col mt-1" style="font-size:11px;"> <!-- PAGE -->
+          <t t-foreach="o.payslip_ids" t-as="p">
+            <div class="row">
+              <div class="col text-uppercase m-0 p-0" style="width:42%">
+                <p t-field="p.employee_id.name"/>
+              </div>
+              <div class="col" style="width:25%">
+                <p t-field="p.employee_id.ssnid"/>
+              </div>
+              <div class="col" style="width:36%">
+                <p t-field="p.contract_id.cct_category_id.name"/>
+              </div>
+            </div>
+            <div class="row"> 
+              <div class="col  m-0 p-0" style="width:32.5%">
+                <p style="padding-left:38px" t-field="p.employee_id.employee_file"/>
+              </div>
+              <div class="col" style="width:10.5%">
+                <p t-field="p.employee_id.identification_id"/>
+              </div>
+              <div class="col" style="width:25%">
+                <span t-field="p.employee_id.service_hire_date"/> <span style="padding-left:70px" t-field="p.employee_id.service_termination_date"/>
+              </div>
+              <div class="col" style="width:40%">
+                <p t-field="p.employee_id.contract_id.amount"/>
+              </div>
+            </div>
+            <div>
+              <p class="m-0 p-0"><strong>Asignaciones Familiares:</strong></p>
+              <t t-foreach="p.employee_id.relative_ids" t-as="rel">
+                <p class="m-0 p-0 pl-2">CUIL <span t-field="rel.identification_id"/> - <span t-field="rel.name"/></p>
+              </t>
+            </div>
+            <div class="row">
+              <div class="col m-0 p-0">
+                <table class="table table-sm table-borderless mb-0 pb-0 col">
+                  <thead>
+                    <tr class="text-center">
+                      <th scope="col" class="text-left">COD.</th>
+                      <th scope="col">CONCEPTO</th>
+                      <th scope="col">CANT.</th>
+                      <th scope="col">REMUN.</th>
+                      <th scope="col">NO REMUN.</th>
+                      <th scope="col">DESCUENTOS.</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  <t t-set="total_gross" t-value="p.total_gross"/>
+                	<t t-set="total_norem" t-value="p.amount_norem"/>
+                	<t t-set="total_desc" t-value="p.total_retentions + p.total_deductions"/>
+                	<t t-set="total_net" t-value="p.total_net"/>
+                    <t t-foreach="p.line_ids" t-as="line">
+
+                      <t t-if="line.appears_on_payslip and line.total != 0.00">
+                        <tr>
+                          <td class="text-left"><span t-field="line.code"/></td>
+                          <td class="text-left"><span t-field="line.name"/></td>
+                          <td class="text-center">
+                            <t t-if="line.rate != 100.0">
+  												  <span t-field="line.rate" t-options="{'widget': 'percentage'}"/>
+  												  %
+  											    </t>
+                          </td>
+                          <td class="text-right">
+                            <t t-if="line.category_id.parent_id.code == 'GROSS'">
+  												  <span t-field="line.total" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.company_id.currency_id}"/>
+  											    </t>
+                          </td>
+                          <td class="text-right">
+                            <t t-if="line.category_id.code == 'NOREM931'">
+  												  <span t-field="line.total" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.company_id.currency_id}"/>
+  											    </t>
+                          </td>
+                          <td class="text-right">
+                            <t t-if="line.category_id.code == 'RET' or                                                             line.category_id.code == 'DED' or                                                                 line.category_id.code == 'DESC'">
+  												    <span t-field="line.total" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.company_id.currency_id}"/>
+  											    </t>
+                          </td>
+                        </tr>
+                      </t>
+                    </t>
+                  </tbody>
+                  <tr style="border-top:1px dashed black; border-bottom:2px solid black">
+                    <td colspan="3" class="text-center" style="border-top:1px dashed black;"> <span><strong>Total neto <span class="pl-5" t-field="p.total_net"/></strong></span></td>
+                    <td colspan="1" class="text-right" style="border-top:1px dashed black;"><span t-esc="total_gross"/></td>
+                    <td colspan="1" class="text-right" style="border-top:1px dashed black;"><span t-esc="total_norem"/></td>
+                    <td colspan="1" class="text-right" style="border-top:1px dashed black;"><span t-esc="total_desc"/></td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </t>
+        </div><!-- END PAGE -->
+        <div style="page-break-after: always;"/>
+
+      </div><!-- END ARTICLE -->
+  </template>
+  
+  <template id="report_libro_sueldos">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="exe_libro_sueldos.exe_libro_sueldos_pdf"/> <!-- t-lang="o.partner_id.lang"-->
+        </t>
+    </t>
+  </template>
+  
+  
+  <record id="paperformat_libro_sueldos" model="report.paperformat">
+            <field name="name">Libro de sueldos</field>
+            <field name="default" eval="True" />
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">75</field>
+            <field name="margin_bottom">15</field>
+            <field name="margin_left">22</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">28</field>
+            <field name="dpi">90</field>
+        </record>
+  
+  <!-- QWeb Reports -->
+  <report
+    id="exe_libro_sueldos"
+    model="payroll.ledger"
+    string="Libro Sueldos Digital - PDF"
+    print_report_name = "((object.name or 'Libro de sueldos'))"
+    paperformat="paperformat_libro_sueldos"
+    report_type="qweb-pdf"
+    name="exe_libro_sueldos.report_libro_sueldos"
+    file="exe_libro_sueldos.report_libro_sueldos"
+    attachment="(object.state in ('open','paid')) and ('INV'+(object.number or '').replace('/','')+'.pdf')"
+  />
+
+  </data>
+</odoo>

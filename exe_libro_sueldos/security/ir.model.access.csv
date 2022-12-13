@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_exe_libro_sueldos_exe_libro_sueldos,exe_libro_sueldos.exe_libro_sueldos,model_exe_libro_sueldos_exe_libro_sueldos,base.group_user,1,1,1,1

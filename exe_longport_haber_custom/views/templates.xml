@@ -1,0 +1,445 @@
+<odoo>
+	<data>
+		<template id="exe_report_payslip_original_custom" inherit_id="l10n_ar_payroll.l10n_ar_report_payslip_original">
+			<xpath expr="//div[@class='col-6'][1]" position="replace">
+				<div class="col-6" style="border: 2px solid black; border-radius: 0px; padding: 0px; margin-right: 5px;">
+					<!-- HEADER -->
+					<t t-call="exe_longport_haber_custom.report_payslip_header_custom" />
+					<br />
+					<!-- DATOS -->
+					<t t-call="exe_longport_haber_custom.report_payslip_datos_custom" />
+					<!-- LIQ -->
+					<t t-call="exe_longport_haber_custom.report_payslip_liq_custom" />
+					<!-- FIRMAS O -->
+           <br />
+					<t t-call="exe_longport_haber_custom.report_payslip_firmas_o_custom" />
+          <!-- FOOTER -->
+          <t t-call="exe_longport_haber_custom.report_payslip_footer_d_custom"/>
+				</div>
+			</xpath>
+			<xpath expr="//div[@class='col-6'][2]" position="replace">
+				<div class="col-6" style="border: 2px solid black; border-radius: 0px; padding: 0px; margin-right: 5px;">
+					<!-- HEADER -->
+					<t t-call="exe_longport_haber_custom.report_payslip_header_custom" />
+					<br />
+					<!-- DATOS -->
+					<t t-call="exe_longport_haber_custom.report_payslip_datos_custom" />
+					<!-- LIQ -->
+					<t t-call="exe_longport_haber_custom.report_payslip_liq_custom" />
+          <!-- FIRMA D -->
+          <br />
+          <t t-call="exe_longport_haber_custom.report_payslip_firmas_d_custom"/>
+          <!-- FOOTER -->
+          <t t-call="exe_longport_haber_custom.report_payslip_footer_o_custom"/>
+				</div>
+			</xpath>
+		</template>
+		<template id="report_payslip_header_custom">
+			<article style="font-size:10px;">
+				<div class="row align-items-center" style="border-bottom: 1px solid black; border-radius: 0px;margin: 0px 1px">
+					<!-- HEADER -->
+					<div name="logo" class="col-3 text-align:center" style="border-right:1px solid black; height:120px">
+						<img class="img-responsive" t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="max-width: 100%; max-height: 80px;" alt="Logo" />
+					</div>
+					<div name="info_payslip" class="col-9">
+						<div class="row" style="border-bottom:1px solid black">
+							<div name="header_title" class="col-8">
+								<h6>
+									<strong>
+										RECIBO DE HABERES
+									</strong>
+								</h6>
+								<!-- span>Original</span -->
+							</div>
+							<div name="nro_payslip" class="col-4">
+								<h6>
+									SLIP
+									<span t-field="o.number" />
+								</h6>
+							</div>
+						</div>
+						<div class="row">
+							<div name="content_payslip" class="col">
+								<small>
+									<span t-field="o.company_id.street" />
+									,
+									<span t-field="o.company_id.city" />
+									<span t-field="o.company_id.state_id.name" />
+									,
+									<span t-field="o.company_id.country_id.name" />
+									<br />
+									<br />
+								</small>
+								CUIT:
+								<span t-field="o.company_id.vat" />
+								<h6>
+									<strong>
+										<span t-field="o.company_id.name" />
+									</strong>
+								</h6>
+							</div>
+						</div>
+					</div>
+				</div>
+			</article>
+		</template>
+		<template id="report_payslip_datos_custom">
+			<style>
+				th{
+				font-size:10px
+				}
+			</style>
+			<article style="font-size:9px;">
+				<table class="table table-sm center text-center">
+					<thead class="table-warning">
+						<tr>
+							<th scope="col" colspan="3" style="border-left:.5px solid black;border-right:.5px solid black;border-top:.5px solid black;">
+								APELLIDO Y NOMBRE
+							</th>
+							<th scope="col" colspan="1" style="border-right:.5px solid black;border-top:.5px solid black;">
+								LEGAJO
+							</th>
+							<th scope="col" colspan="3" style="border-right:.5px solid black;border-top:.5px solid black;">
+								CUIL
+							</th>
+							<th scope="col" colspan="3" style="border-top:.5px solid black;">
+								CATEGORIA
+							</th>
+						</tr>
+					</thead>
+					<tr style="border-bottom:.5px solid black">
+						<td colspan="3" style="border-right:.5px solid black;border-bottom:.5px solid black;border-top:.5px solid black;">
+							<span t-field="o.employee_id.name" />
+						</td>
+						<td colspan="1" style="border-right:.5px solid black;border-bottom:.5px solid black;border-top:.5px solid black;">
+							<span t-field="o.employee_id.id" />
+						</td>
+						<td colspan="3" style="border-right:.5px solid black;border-bottom:.5px solid black;border-top:.5px solid black;">
+							<span t-field="o.employee_id.ssnid" />
+						</td>
+						<td colspan="3" style="border-bottom:.5px solid black;border-top:.5px solid black;">
+							<span t-field="o.contract_id.cct_category_id.name" />
+						</td>
+					</tr>
+					<thead class="table-warning">
+						<tr>
+							<th scope="col" colspan="2" style="border-left:.5px solid black;border-right:.5px solid black;border-top:.5px solid black;">
+								PERIODO ABONADO
+							</th>
+							<th scope="col" colspan="1" style="border-right:.5px solid black;border-top:.5px solid black;">
+								INGRESO
+							</th>
+							<th scope="col" colspan="1" style="border-right:.5px solid black;border-top:.5px solid black;">
+								EGRESO
+							</th>
+							<th scope="col" colspan="3" style="border-right:.5px solid black;border-top:.5px solid black;">
+								SUELDO
+							</th>
+							<th scope="col" colspan="3" style="border-right:.5px solid black;border-top:.5px solid black;">
+								FECHA DE PAGO
+							</th>
+						</tr>
+					</thead>
+					<tr>
+						<td colspan="2" style="border-right:.5px solid black;border-bottom:.5px solid black;border-top:.5px solid black;">
+              <t t-if="o.hr_period_id.date_start">
+                <span t-field="o.hr_period_id.date_start" t-options="{&quot;widget&quot;: &quot;date&quot;, &quot;format&quot;: &quot;MM/yyyy&quot;}" />
+              </t>
+              <t t-else="">
+                <span t-field="o.payslip_run_id.date_start" t-options="{&quot;widget&quot;: &quot;date&quot;, &quot;format&quot;: &quot;MM/yyyy&quot;}" />
+              </t>
+							
+						</td>
+						<td colspan="1" style="border-right:.5px solid black;border-bottom:.5px solid black;border-top:.5px solid black;">
+							<span t-field="o.employee_id.service_hire_date" />
+						</td>
+						<td colspan="1" style="border-right:.5px solid black;border-bottom:.5px solid black;border-top:.5px solid black;">
+							<span t-field="o.employee_id.service_termination_date" />
+						</td>
+						<td colspan="3" style="border-right:.5px solid black;border-bottom:.5px solid black;border-top:.5px solid black;">
+							<t t-if="o.contract_id.aplica_cct">
+								<t t-esc="o.contract_id.cct_category_id.get_category_value(o.date_from)" />
+							</t>
+							<t t-else="">
+								<t t-esc="o.contract_id.amount" />
+							</t>
+							/
+							<span t-field="o.contract_id.amount_period" />
+						</td>
+						<td colspan="3" style="border-bottom:.5px solid black;border-top:.5px solid black;">
+              <t t-if="o.hr_period_id.date_payment">
+                  <span t-field="o.hr_period_id.date_payment" />
+              </t>
+              <t t-else="">
+                  <span t-field="o.payslip_run_id.date_payment" />
+              </t>
+						</td>
+					</tr>
+				</table>
+			</article>
+		</template>
+		<template id="report_payslip_liq_custom">
+			<t t-set="total_gross" t-value="o.total_gross" />
+			<t t-set="total_norem" t-value="o.amount_norem" />
+			<t t-set="total_desc" t-value="o.total_retentions + o.total_deductions" />
+			<t t-set="total_net" t-value="o.total_net" />
+			<article style="font-size:8px;">
+				<div class="row">
+					<div class="col">
+						<table class="table table-sm center text-center table-striped">
+							<thead class="table-warning">
+								<tr>
+									<th scope="col" style="border-left:.5px solid black;border-right:.5px solid black;border-top:.5px solid black;">
+										COD.
+									</th>
+									<th scope="col" style="border-right:.5px solid black;border-top:.5px solid black;">
+										CONCEPTO
+									</th>
+									<th scope="col" style="border-right:.5px solid black;border-top:.5px solid black;">
+										CANT.
+									</th>
+									<th scope="col" style="border-right:.5px solid black;border-top:.5px solid black;">
+										REMUNERATIVO
+									</th>
+									<th scope="col" style="border-right:.5px solid black;border-top:.5px solid black;">
+										NO REMUN.
+									</th>
+									<th scope="col" style="border-top:.5px solid black;border-right:.5px solid black">
+										DESCUENTOS
+									</th>
+								</tr>
+							</thead>
+							<t t-foreach="o.line_ids" t-as="line">
+								<t t-if="line.appears_on_payslip and line.total != 0.00">
+									<tr>
+										<td style="border-right:.5px solid black;border-bottom:.5px solid black;border-top:.5px solid black;">
+											<span t-field="line.code"/>
+										</td>
+										<td class="text-left" style="border-right:.5px solid black;border-bottom:.5px solid black;border-top:.5px solid black;">
+											<span t-field="line.name"/>
+										</td>
+										<td style="border-right:.5px solid black;border-bottom:.5px solid black;border-top:.5px solid black;">
+											<t t-if="line.rate != 100.0">
+												<span t-field="line.rate" t-options="{'widget': 'percentage'}"/>
+												%
+											</t>
+										</td>
+										<td class="text-right" style="border-right:.5px solid black;border-bottom:.5px solid black;border-top:.5px solid black;">
+											<!-- COLUMNA BRUTO (REMUNERATIVO) -->
+											<!-- Solo mostrar si la parent category es una categoria de "GROSS" - REMUNERATIVO -->
+											<t t-if="line.category_id.parent_id.code == 'GROSS'">
+												<span t-field="line.total" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.company_id.currency_id}"/>
+											</t>
+										</td>
+										<td class="text-right" style="border-top:.5px solid black;border-right:.5px solid black;border-bottom:.5px solid black;">
+											<!-- COLUMNA NO REMUNERATIVO -->
+											<!-- Solo mostrar si la categoria es "NO REMUNERATIVA" -->
+											<t t-if="line.category_id.code == 'NOREM931'">
+												<span t-field="line.total" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.company_id.currency_id}"/>
+											</t>
+										</td>
+										<td class="text-right" style="border-bottom:.5px solid black;border-top:.5px solid black;">
+											<!-- COLUMNA DESCUENTOS -->
+											<!-- Solo mostrar si la categoria es "RET" (RETENCIONES), "DED" (DEDUCCIONES), "DESC" (DESCUENTOS) -->
+											<t t-if="line.category_id.code == 'RET' or                                                             line.category_id.code == 'DED' or                                                                 line.category_id.code == 'DESC'">
+												<span t-field="line.total" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.company_id.currency_id}"/>
+											</t>
+										</td>
+									</tr>
+								</t>
+							</t>
+							<tr>
+								<th colspan="3" class="text-left table-warning" style="border-top:.5px solid black;border-right:.5px solid black;border-bottom:.5px solid black">
+									Lugar y fecha de pago
+								</th>
+								<th class="text-right" style="border-top:.5px solid black;border-right:.5px solid black;border-bottom:.5px solid black">
+									<t t-esc="total_gross" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.company_id.currency_id}"/>
+								</th>
+								<th class="text-right" style="border-top:.5px solid black;border-right:.5px solid black;border-bottom:.5px solid black">
+									<t t-esc="total_norem" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.company_id.currency_id}"/>
+								</th>
+								<th class="text-right" style="border-top:.5px solid black;border-bottom:.5px solid black">
+									<t t-esc="total_desc" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.company_id.currency_id}"/>
+								</th>
+							</tr>
+							<tr>
+								<th scope="col" colspan="3" class="text-left" style="border-top:.5px solid black;border-right:.5px solid black;border-bottom:.5px solid black">
+									<span t-field="o.company_id.street"/>
+									,
+									<span t-field="o.company_id.country_id.name"/>
+								</th>
+								<th scope="col" class="text-center" style="border-top:.5px solid black;border-right:.5px solid black;border-bottom:.5px solid black">
+									<span t-field="o.hr_period_id.date_payment"/>
+								</th>
+								<th scope="col" colspan="2" class="text-center" style="border-top:.5px solid black;border-bottom:.5px solid black">
+									Total Neto:
+									<t t-esc="total_net" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.company_id.currency_id}"/>
+								</th>
+							</tr>
+							<!--
+							caption class="text-uppercase text-right">
+							<t t-esc="o.net_to_words_es(total_net)"/>
+							</caption
+							-->
+						</table>
+					</div>
+				</div>
+			</article>
+		</template>
+		<template id="report_payslip_firmas_d_custom">
+      <!-- original -->
+			<article style="font-size:8px;">
+				<t t-set="total_net" t-value="o.total_net"/>
+				<div class="row" style="margin: 0.5px">
+          <p class="m-0 p-0 text-center"  style="font-size:10px;border-top:1px solid black; width:100%">ART.12 LEY 17250</p>
+        </div>
+				<div class="row" style="margin: 0.5px;">
+					<table class="table table-sm center text-center" style="font-size:10px;">
+						<tr>
+							<td scope="col" style="width:30%;border-top:.5px solid black; border-right:.5px solid black">
+								Depositado en:
+                <t t-if="o.payslip_run_id">                                               
+								  <strong t-field="o.payslip_run_id.despositado_art12"/>
+                </t>
+
+							</td>
+							<td class="table-warning" scope="col" style="width:20%;border-top:.5px solid black; border-right:.5px solid black">
+								Fecha
+							</td>
+							<td class="table-warning" scope="col" style="width:20%;border-top:.5px solid black; border-right:.5px solid black">
+								Periodo
+							</td>
+							<td scope="col" style="width:30%;border-top:.5px solid black;">
+								Depositado en: <span t-field="o.employee_id.bank_account_id.bank_id"/>
+							</td>
+						</tr>
+						<tr>
+							<td style="border-top:.5px solid black; border-right:.5px solid black">
+								Firma del empleado
+							</td>
+							<td style="border-top:.5px solid black; border-right:.5px solid black">
+                <t t-if="o.payslip_run_id">  
+				          <t t-esc="o.payslip_run_id.fecha_pago_art12.strftime('%m/%Y')"/>
+                </t>
+								<!-- span t-field="o.compute_date"/ -->
+							</td>
+							<td style="border-top:.5px solid black; border-right:.5px solid black">
+                <t t-if="o.payslip_run_id">  
+							    <t t-esc="o.payslip_run_id.periodo_pago_art12" t-widget="date" t-options="{&quot;widget&quot;: &quot;date&quot;, &quot;format&quot;: &quot;MM/yyyy&quot;}"/>
+                </t>
+							  <!-- span t-esc="o.hr_period_id.date_start.strftime('%m/%Y')"/ -->
+								<!-- span t-field="o.hr_period_id.date_payment"/ -->
+							</td>
+							<td style="border-top:.5px solid black">
+								Depositado en: <span t-field="o.employee_id.bank_account_id.acc_number"/>
+							</td>
+						</tr>
+						<tr style="height:80px">
+							<td style="border-top:.5px solid black; border-right:.5px solid black;border-bottom:.5px solid black;">
+							</td>
+							<td colspan="3" class="text-left" style="border-top:.5px solid black;border-bottom:.5px solid black;">
+								Son pesos:
+								<t t-esc="o.net_to_words_es(total_net)"/>
+								<p>
+									Recibi conforme el importe neto de esta liquidacion por el periodo arriba indicado,
+								</p>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</article>
+		</template>
+   <template id="report_payslip_firmas_o_custom">
+            <article style="font-size:8px;">
+              <t t-set="total_net" t-value="o.total_net"/>
+        				<div class="row" style="margin: 0.5px">
+                  <p class="m-0 p-0 text-center"  style="font-size:10px;border-top:1px solid black; width:100%">ART.12 LEY 17250</p>
+                </div>
+                <div class="row" style="margin: 0.5px;">
+                  <table class="table table-sm center text-center" style="font-size:10px;">
+                              <tr>
+                                <td scope="col" style="width:30%;border-top:.5px solid black; border-right:.5px solid black">Depositado en:
+                                 <t t-if="o.payslip_run_id">  
+                                   <strong t-field="o.payslip_run_id.despositado_art12"/>
+                                 </t>
+                                 </td>
+                                <td class="table-warning" scope="col" style="width:20%;border-top:.5px solid black; border-right:.5px solid black">Fecha</td>
+                                <td class="table-warning" scope="col" style="width:20%;border-top:.5px solid black; border-right:.5px solid black">Periodo</td>
+                                <td scope="col" style="width:30%;border-top:.5px solid black;">Depositado en: <span t-field="o.employee_id.bank_account_id.bank_id"/></td>
+                              </tr>
+                              <tr>
+                                <td style="border-top:.5px solid black; border-right:.5px solid black">Firma del empleador</td>
+                                <td style="border-top:.5px solid black; border-right:.5px solid black">
+                                 <t t-if="o.payslip_run_id">   
+                                  <t t-esc="o.payslip_run_id.fecha_pago_art12.strftime('%m/%Y')"/>
+                                 </t>
+                                </td>
+                                <td style="border-top:.5px solid black; border-right:.5px solid black">
+                                 <t t-if="o.payslip_run_id">  
+                                  <t t-esc="o.payslip_run_id.periodo_pago_art12" t-widget="date" t-options="{&quot;widget&quot;: &quot;date&quot;, &quot;format&quot;: &quot;MM/yyyy&quot;}"/>
+                                 </t> 
+                                </td>
+                                <td style="border-top:.5px solid black">Depositado en: <span t-field="o.employee_id.bank_account_id.acc_number"/></td>
+                              </tr>
+                              <tr style="height:80px">
+                                <td style="border-top:.5px solid black; border-right:.5px solid black;border-bottom:.5px solid black;">Aca va la firma del empleador</td>
+                                <td colspan="3" class="text-left" style="border-top:.5px solid black;border-bottom:.5px solid black;">
+                                  Son pesos: <t t-esc="o.net_to_words_es(total_net)"/>
+                                </td>
+                              </tr>
+                    </table>
+                </div>
+            </article>
+   </template>
+   <template id="report_payslip_footer_o_custom">
+            <article style="font-size:10px;">
+                <div class="row justify-content-end" style="border-radius: 0px; padding: 2px; margin: 0.5px;">
+                    <div class="col-6">
+                        <!-- p>
+                            <small>
+                                <em>
+                                    RECIBO OFICIAL DE HABERES - LEY 20.774
+                                    <br/>
+                                    SALVO ERROR U OMISION (S.E.U.O)
+                                </em>
+                            </small>
+                        </p -->
+                    </div>
+                    <div class="col-6 text-right">
+                        <strong>
+                            <em>
+                                - ORIGINAL -
+                            </em>
+                        </strong>
+                    </div>
+                </div>
+            </article>
+   </template>
+   <template id="report_payslip_footer_d_custom">
+            <article style="font-size:10px;">
+                <div class="row justify-content-end" style="border-radius: 0px; padding: 2px; margin: 0.5px;">
+                    <div class="col-6">
+                        <!-- p>
+                            <small>
+                                <em>
+                                    RECIBO OFICIAL DE HABERES - LEY 20.774
+                                    <br/>
+                                    SALVO ERROR U OMISION (S.E.U.O)
+                                </em>
+                            </small>
+                        </p -->
+                    </div>
+                    <div class="col-6 text-right">
+                        <strong>
+                            <em>
+                                - DUPLICADO -
+                            </em>
+                        </strong>
+                    </div>
+                </div>
+            </article>
+   </template>
+	</data>
+</odoo>
+
+
