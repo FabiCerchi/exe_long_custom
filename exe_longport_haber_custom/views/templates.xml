@@ -319,7 +319,8 @@
 							</td>
 							<td style="border-top:.5px solid black; border-right:.5px solid black">
                 <t t-if="o.payslip_run_id">  
-				          <t t-esc="o.payslip_run_id.fecha_pago_art12.strftime('%m/%Y')"/>
+				          <!-- t t-esc="o.payslip_run_id.fecha_pago_art12.strftime('%m/%Y')"/ -->
+                  <t t-esc="o.payslip_run_id.fecha_pago_art12.strftime('%d/%m/%Y')"/>                                                                       
                 </t>
 								<!-- span t-field="o.compute_date"/ -->
 							</td>
@@ -371,7 +372,8 @@
                                 <td style="border-top:.5px solid black; border-right:.5px solid black">Firma del empleador</td>
                                 <td style="border-top:.5px solid black; border-right:.5px solid black">
                                  <t t-if="o.payslip_run_id">   
-                                  <t t-esc="o.payslip_run_id.fecha_pago_art12.strftime('%m/%Y')"/>
+                                  <!-- t t-esc="o.payslip_run_id.fecha_pago_art12.strftime('%m/%Y')"/ -->
+                                  <t t-esc="o.payslip_run_id.fecha_pago_art12.strftime('%d/%m/%Y')"/>
                                  </t>
                                 </td>
                                 <td style="border-top:.5px solid black; border-right:.5px solid black">
